@@ -6,9 +6,109 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
-//////////////////////////////////////////////////////
-// ENUMS
-//////////////////////////////////////////////////////
+
+model User {
+  id           String        @id @default(uuid()) @db.Uuid
+  name         String
+  email        String        @unique
+  password     String
+  phone        String        @unique
+  role         Role          @default(CUSTOMER)
+  status       UserStatus    @default(ACTIVE)
+  profileImage String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  gearItems    GearItem[]
+  rentals      RentalOrder[]
+  reviews      Review[]
+
+  @@map("users")
+}
+
+model Category {
+  id          String     @id @default(uuid()) @db.Uuid
+  name        String     @unique
+  description String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  gearItems   GearItem[]
+
+  @@map("categories")
+}
+
+model GearItem {
+  id          String        @id @default(uuid()) @db.Uuid
+  providerId  String        @db.Uuid
+  categoryId  String        @db.Uuid
+  name        String
+  brand       String
+  description String
+  pricePerDay Decimal       @db.Decimal(10, 2)
+  stock       Int
+  images      String[]
+  isAvailable Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  category    Category      @relation(fields: [categoryId], references: [id])
+  provider    User          @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  rentals     RentalOrder[]
+  reviews     Review[]
+
+  @@index([providerId])
+  @@index([categoryId])
+  @@map("gear_items")
+}
+
+model RentalOrder {
+  id          String       @id @default(uuid()) @db.Uuid
+  customerId  String       @db.Uuid
+  gearId      String       @db.Uuid
+  quantity    Int
+  startDate   DateTime
+  endDate     DateTime
+  totalAmount Decimal      @db.Decimal(10, 2)
+  status      RentalStatus @default(PLACED)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  payment     Payment?
+  customer    User         @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  gear        GearItem     @relation(fields: [gearId], references: [id])
+
+  @@index([customerId])
+  @@index([gearId])
+  @@map("rental_orders")
+}
+
+model Payment {
+  id            String          @id @default(uuid()) @db.Uuid
+  orderId       String          @unique @db.Uuid
+  transactionId String          @unique
+  amount        Decimal         @db.Decimal(10, 2)
+  provider      PaymentProvider
+  status        PaymentStatus   @default(PENDING)
+  paidAt        DateTime?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  order         RentalOrder     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("payments")
+}
+
+model Review {
+  id         String   @id @default(uuid()) @db.Uuid
+  customerId String   @db.Uuid
+  gearId     String   @db.Uuid
+  rating     Int
+  comment    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  customer   User     @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  gear       GearItem @relation(fields: [gearId], references: [id], onDelete: Cascade)
+
+  @@index([customerId])
+  @@index([gearId])
+  @@map("reviews")
+}
 
 enum Role {
   CUSTOMER
@@ -39,178 +139,4 @@ enum PaymentStatus {
   PENDING
   COMPLETED
   FAILED
-}
-
-//////////////////////////////////////////////////////
-// USER
-//////////////////////////////////////////////////////
-
-model User {
-  id           String     @id @default(uuid()) @db.Uuid
-  name         String
-  email        String     @unique
-  password     String
-  phone        String     @unique
-  role         Role       @default(CUSTOMER)
-  status       UserStatus @default(ACTIVE)
-  profileImage String?
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-
-  gearItems    GearItem[]
-  rentals      RentalOrder[]
-  reviews      Review[]
-
-  @@map("users")
-}
-
-//////////////////////////////////////////////////////
-// CATEGORY
-//////////////////////////////////////////////////////
-
-model Category {
-  id          String   @id @default(uuid()) @db.Uuid
-  name        String   @unique
-  description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  gearItems   GearItem[]
-
-  @@map("categories")
-}
-
-//////////////////////////////////////////////////////
-// GEAR ITEM
-//////////////////////////////////////////////////////
-
-model GearItem {
-  id            String    @id @default(uuid()) @db.Uuid
-  providerId    String    @db.Uuid
-  categoryId    String    @db.Uuid
-
-  name          String
-  brand         String
-  description   String
-
-  pricePerDay   Decimal   @db.Decimal(10,2)
-
-  stock         Int
-
-  images        String[]
-
-  isAvailable   Boolean   @default(true)
-
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
-  provider      User      @relation(fields: [providerId], references: [id], onDelete: Cascade)
-
-  category      Category  @relation(fields: [categoryId], references: [id], onDelete: Restrict)
-
-  rentals       RentalOrder[]
-
-  reviews       Review[]
-
-  @@index([providerId])
-
-  @@index([categoryId])
-
-  @@map("gear_items")
-}
-
-//////////////////////////////////////////////////////
-// RENTAL ORDER
-//////////////////////////////////////////////////////
-
-model RentalOrder {
-  id           String         @id @default(uuid()) @db.Uuid
-
-  customerId   String         @db.Uuid
-
-  gearId       String         @db.Uuid
-
-  quantity     Int
-
-  startDate    DateTime
-
-  endDate      DateTime
-
-  totalAmount  Decimal        @db.Decimal(10,2)
-
-  status       RentalStatus   @default(PLACED)
-
-  createdAt    DateTime       @default(now())
-
-  updatedAt    DateTime       @updatedAt
-
-  customer     User           @relation(fields: [customerId], references: [id], onDelete: Cascade)
-
-  gear         GearItem       @relation(fields: [gearId], references: [id], onDelete: Restrict)
-
-  payment      Payment?
-
-  @@index([customerId])
-
-  @@index([gearId])
-
-  @@map("rental_orders")
-}
-
-//////////////////////////////////////////////////////
-// PAYMENT
-//////////////////////////////////////////////////////
-
-model Payment {
-  id             String            @id @default(uuid()) @db.Uuid
-
-  orderId        String            @unique @db.Uuid
-
-  transactionId  String            @unique
-
-  amount         Decimal           @db.Decimal(10,2)
-
-  provider       PaymentProvider
-
-  status         PaymentStatus     @default(PENDING)
-
-  paidAt         DateTime?
-
-  createdAt      DateTime          @default(now())
-
-  updatedAt      DateTime          @updatedAt
-
-  order          RentalOrder       @relation(fields: [orderId], references: [id], onDelete: Cascade)
-
-  @@map("payments")
-}
-
-//////////////////////////////////////////////////////
-// REVIEW
-//////////////////////////////////////////////////////
-
-model Review {
-  id           String     @id @default(uuid()) @db.Uuid
-
-  customerId   String     @db.Uuid
-
-  gearId       String     @db.Uuid
-
-  rating       Int
-
-  comment      String
-
-  createdAt    DateTime   @default(now())
-
-  updatedAt    DateTime   @updatedAt
-
-  customer     User       @relation(fields: [customerId], references: [id], onDelete: Cascade)
-
-  gear         GearItem   @relation(fields: [gearId], references: [id], onDelete: Cascade)
-
-  @@index([customerId])
-
-  @@index([gearId])
-
-  @@map("reviews")
 }

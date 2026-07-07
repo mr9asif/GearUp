@@ -8,5 +8,7 @@
     "skipLibCheck": true,
     "types": ["node"]
   },
-  "include": ["src", "generated"]
+  "include": [
+  "**/*.ts"
+]
 }

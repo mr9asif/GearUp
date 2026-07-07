@@ -1,11 +1,16 @@
-import express from "express";
+import cookieParser from "cookie-parser";
+import express, { Application } from "express";
 import { prisma } from "./config/prisma";
+import { AuthRoutes } from "./modules/auth/auth.route";
+console.log("✅ AuthRoutes imported"), AuthRoutes;
 
+const app:Application = express();
 
+// middleware
+app.use(express.json());
+app.use(cookieParser());
 
-const app = express();
-
-app.get("/", (_, res) => {
+app.get("/asif", (_, res) => {
   res.json({
     success: true,
     message: "GearUp API is running 🚀",
@@ -13,9 +18,12 @@ app.get("/", (_, res) => {
 });
 
 
+app.use('/api/auth', AuthRoutes)
+
 export const startServer=async()=> {
   try {
     await prisma.$connect();
+    console.log(process.env.DATABASE_URL);
 
     console.log("✅ PostgreSQL Connected");
 

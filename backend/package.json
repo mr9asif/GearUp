@@ -7,9 +7,10 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
-    "prisma:studio": "prisma studio"
+   "prisma:generate": "prisma generate --config prisma/prisma.config.ts",
+    "prisma:migrate": "prisma migrate dev --config prisma/prisma.config.ts",
+    "prisma:migrate:prod": "prisma migrate deploy --config prisma/prisma.config.ts",
+    "prisma:migrate:reset": "prisma migrate reset --config prisma/prisma.config.ts"
   },
   "keywords": [],
   "author": "",
