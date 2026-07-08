@@ -78,6 +78,8 @@ const updateGear = catchAsync(async (req: Request, res: Response) => {
   const providerId = req.user.id;
   const gearId = req.params.id as string;
 
+  console.log("update",req.body)
+
   const result = await GearService.updateGear(
     providerId,
     gearId,
