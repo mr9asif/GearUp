@@ -24,6 +24,8 @@ const registerValidationSchema = z.object({
     })
     .min(11, "Phone number must be at least 11 digits")
     .max(15, "Phone number is too long"),
+
+    role: z.enum(["CUSTOMER", "PROVIDER"]).optional(),
 });
 
 const loginValidationSchema = z.object({

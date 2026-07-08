@@ -53,6 +53,7 @@ const register = async (payload:IRegisterUser) => {
       phone: payload.phone,
       password: hashedPassword,
       profileImage: payload.profileImage,
+      role:payload.role
     },
     select: {
       id: true,
