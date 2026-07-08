@@ -1,8 +1,9 @@
 import cookieParser from "cookie-parser";
 import express, { Application } from "express";
 import { prisma } from "./config/prisma";
+import { AdminRoutes } from "./modules/admin/admin.route";
 import { AuthRoutes } from "./modules/auth/auth.route";
-console.log("✅ AuthRoutes imported"), AuthRoutes;
+
 
 const app:Application = express();
 
@@ -19,6 +20,7 @@ app.get("/asif", (_, res) => {
 
 
 app.use('/api/auth', AuthRoutes)
+app.use('/api/admin', AdminRoutes)
 
 export const startServer=async()=> {
   try {
