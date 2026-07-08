@@ -7,7 +7,11 @@ import { PaymentController } from "./payment.controller";
 import { PaymentValidation } from "./payment.validation";
 
 const router = express.Router();
+const confirmPayment = async (req: Request, res: Response) => {
+  console.log("🔥 Webhook controller reached");
 
+  
+};
 /**
  * Customer
  */

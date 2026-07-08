@@ -180,7 +180,70 @@ const confirmPayment = async (
   };
 };
 
+
+const getMyPayments = async (customerId: string) => {
+  const payments = await prisma.payment.findMany({
+    where: {
+      order: {
+        customerId,
+      },
+    },
+    include: {
+      order: {
+        include: {
+          gear: {
+            include: {
+              category: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return payments;
+};
+
+const getPaymentById = async (
+  customerId: string,
+  paymentId: string
+) => {
+  const payment = await prisma.payment.findFirst({
+    where: {
+      id: paymentId,
+      order: {
+        customerId,
+      },
+    },
+    include: {
+      order: {
+        include: {
+          gear: {
+            include: {
+              category: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!payment) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "Payment not found"
+    );
+  }
+
+  return payment;
+};
+
 export const PaymentService = {
   createCheckoutSession,
-  confirmPayment
+  confirmPayment,
+  getMyPayments,
+  getPaymentById
 };
