@@ -6,11 +6,17 @@ import { AuthRoutes } from "./modules/auth/auth.route";
 import { CategoryRoutes } from "./modules/category/category.route";
 import { GearRoutes } from "./modules/gear/gear.route";
 import { ProviderGearRoutes } from "./modules/gear/providerGear.route";
+import { PaymentRoutes } from "./modules/payment/payment.route";
+import { RentalRoutes } from "./modules/rental/rental.route";
 
 
 const app:Application = express();
 
 // middleware
+app.use(
+  "/api/payments/confirm",
+  express.raw({ type: "application/json" })
+);
 app.use(express.json());
 app.use(cookieParser());
 
@@ -27,6 +33,8 @@ app.use('/api/admin', AdminRoutes)
 app.use("/api/categories", CategoryRoutes);
 app.use("/api/gear", GearRoutes);
 app.use("/api/provider/gear", ProviderGearRoutes);
+app.use("/api/payments", PaymentRoutes);
+app.use("/api/rentals", RentalRoutes);
 
 
 
