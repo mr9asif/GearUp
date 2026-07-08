@@ -1,6 +1,7 @@
 import express from "express";
-import auth from "../../middlewares/auth";
-import { USER_ROLE } from "../user/user.constant";
+import auth from "../../../middleware/auth";
+
+import { Role } from "../../../generated/prisma";
 import { ProviderRentalController } from "./provider.rental.controller";
 
 const router = express.Router();
@@ -8,42 +9,42 @@ const router = express.Router();
 // Provider dashboard orders
 router.get(
   "/orders",
-  auth(USER_ROLE.PROVIDER),
+  auth(Role.PROVIDER),
   ProviderRentalController.getProviderOrders
 );
 
 // Single order
 router.get(
   "/orders/:id",
-  auth(USER_ROLE.PROVIDER),
+  auth(Role.PROVIDER),
   ProviderRentalController.getSingleOrder
 );
 
 // Accept order
 router.patch(
   "/:id/accept",
-  auth(USER_ROLE.PROVIDER),
+  auth(Role.PROVIDER),
   ProviderRentalController.acceptRental
 );
 
 // Reject order
 router.patch(
   "/:id/reject",
-  auth(USER_ROLE.PROVIDER),
+  auth(Role.PROVIDER),
   ProviderRentalController.rejectRental
 );
 
 // Start rental
 router.patch(
   "/:id/start",
-  auth(USER_ROLE.PROVIDER),
+  auth(Role.PROVIDER),
   ProviderRentalController.startRental
 );
 
 // Complete rental
 router.patch(
   "/:id/complete",
-  auth(USER_ROLE.PROVIDER),
+  auth(Role.PROVIDER),
   ProviderRentalController.completeRental
 );
 
