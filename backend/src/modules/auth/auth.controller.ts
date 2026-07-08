@@ -1,46 +1,77 @@
 import { Request, Response } from "express";
-import { CategoryService, registerUserService } from "./auth.service";
-
-export const registerUser = async (req: Request, res: Response) => {
-  try {
-    const result = await registerUserService(req.body);
-    console.log(req.body)
-
-    res.status(201).json({
-      success: true,
-      message: "User registered successfully",
-      data: result,
-    });
-  } catch (error: any) {
-    console.log(error)
-    res.status(500).json({
-      success: false,
-      message: error,
-     
-    });
-  }
-};
+import httpStatus from "http-status";
+import catchAsync from "../../utils/catchAsync";
+import sendResponse from "../../utils/sendResponse";
+import { AuthService } from "./auth.service";
 
 
-const createCategory = async (req: Request, res: Response) => {
-  try {
-    const result = await CategoryService.createCategory(req.body);
+const register = catchAsync(async (req: Request, res: Response) => {
+  const result = await AuthService.register(req.body);
 
-    res.status(201).json({
-      success: true,
-      message: "Category created successfully",
-      data: result,
-    });
-  } catch (error: any) {
-    console.error(error);
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: "User registered successfully",
+    data: result,
+  });
+});
 
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
+const login = catchAsync(async (req: Request, res: Response) => {
+  const result = await AuthService.login(req.body);
 
-export const CategoryController = {
-  createCategory,
+  // We'll set the refresh token cookie here later
+  // res.cookie("refreshToken", result.refreshToken, cookieOptions);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User logged in successfully",
+    data: result,
+  });
+});
+
+const refreshToken = catchAsync(async (req: Request, res: Response) => {
+  const refreshToken = req.cookies?.refreshToken;
+
+  const result = await AuthService.refreshToken(refreshToken);
+
+  // We'll update the cookie here later if needed
+  // res.cookie("refreshToken", result.refreshToken, cookieOptions);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Access token generated successfully",
+    data: result,
+  });
+});
+
+const logout = catchAsync(async (_req: Request, res: Response) => {
+  res.clearCookie("refreshToken");
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Logged out successfully",
+    data: null,
+  });
+});
+
+const getMe = catchAsync(async (req: Request, res: Response) => {
+  const result = await AuthService.getMe(req.user.id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User retrieved successfully",
+    data: result,
+  });
+});
+
+export const AuthController = {
+  register,
+  login,
+  refreshToken,
+  logout,
+  getMe,
 };

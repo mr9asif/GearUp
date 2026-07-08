@@ -3,6 +3,7 @@ export interface IRegisterUser {
   email: string;
   password: string;
   phone: string;
+  profileImage?: string;
 }
 
 export interface ILoginUser {
