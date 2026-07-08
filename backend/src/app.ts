@@ -3,6 +3,7 @@ import express, { Application } from "express";
 import { prisma } from "./config/prisma";
 import { AdminRoutes } from "./modules/admin/admin.route";
 import { AuthRoutes } from "./modules/auth/auth.route";
+import { CategoryRoutes } from "./modules/category/category.route";
 
 
 const app:Application = express();
@@ -21,6 +22,7 @@ app.get("/asif", (_, res) => {
 
 app.use('/api/auth', AuthRoutes)
 app.use('/api/admin', AdminRoutes)
+app.use("/api/categories", CategoryRoutes);
 
 export const startServer=async()=> {
   try {
