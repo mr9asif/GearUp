@@ -1,7 +1,8 @@
 import express from "express";
 
 
-import { Role } from "@prisma/client";
+
+import { Role } from "../../generated/prisma";
 import auth from "../../middleware/auth";
 import { DashboardController } from "./dashboard.controller";
 
@@ -20,5 +21,7 @@ router.get(
   auth(Role.CUSTOMER),
   DashboardController.getCustomerDashboard
 );
+
+
 
 export const DashboardRoutes = router;
