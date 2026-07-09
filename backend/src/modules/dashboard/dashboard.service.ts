@@ -1,5 +1,6 @@
-import { PaymentStatus, RentalStatus } from "@prisma/client";
+
 import { prisma } from "../../config/prisma";
+import { PaymentStatus, RentalStatus } from "../../generated/prisma";
 
 const getProviderDashboard = async (providerId: string) => {
   const [

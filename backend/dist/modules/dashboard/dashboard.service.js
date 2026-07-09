@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DashboardService = void 0;
-const client_1 = require("@prisma/client");
 const prisma_1 = require("../../config/prisma");
+const prisma_2 = require("../../generated/prisma");
 const getProviderDashboard = async (providerId) => {
     const [gearStats, rentalStats, paymentStats, reviewStats,] = await Promise.all([
         prisma_1.prisma.gearItem.aggregate({
@@ -25,7 +25,7 @@ const getProviderDashboard = async (providerId) => {
         }),
         prisma_1.prisma.payment.aggregate({
             where: {
-                status: client_1.PaymentStatus.COMPLETED,
+                status: prisma_2.PaymentStatus.COMPLETED,
                 order: {
                     gear: {
                         providerId,
@@ -56,8 +56,8 @@ const getProviderDashboard = async (providerId) => {
             isAvailable: true,
         },
     });
-    const activeRentals = rentalStats.filter((rental) => rental.status === client_1.RentalStatus.PICKED_UP).length;
-    const completedRentals = rentalStats.filter((rental) => rental.status === client_1.RentalStatus.RETURNED).length;
+    const activeRentals = rentalStats.filter((rental) => rental.status === prisma_2.RentalStatus.PICKED_UP).length;
+    const completedRentals = rentalStats.filter((rental) => rental.status === prisma_2.RentalStatus.RETURNED).length;
     return {
         totalGears: gearStats._count.id,
         availableGears,
@@ -73,18 +73,18 @@ const getCustomerDashboard = async (customerId) => {
         prisma_1.prisma.rentalOrder.count({
             where: {
                 customerId,
-                status: client_1.RentalStatus.PICKED_UP,
+                status: prisma_2.RentalStatus.PICKED_UP,
             },
         }),
         prisma_1.prisma.rentalOrder.count({
             where: {
                 customerId,
-                status: client_1.RentalStatus.RETURNED,
+                status: prisma_2.RentalStatus.RETURNED,
             },
         }),
         prisma_1.prisma.payment.aggregate({
             where: {
-                status: client_1.PaymentStatus.COMPLETED,
+                status: prisma_2.PaymentStatus.COMPLETED,
                 order: {
                     customerId,
                 },
