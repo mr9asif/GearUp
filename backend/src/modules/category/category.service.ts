@@ -2,7 +2,7 @@ import httpStatus from "http-status";
 import { prisma } from "../../config/prisma";
 import AppError from "../../error/Apperror";
 
-const createCategory = async (payload: { name: string }) => {
+const createCategory = async (payload: { name: string, description?:string }) => {
   const categoryName = payload.name.trim();
 
   const existingCategory = await prisma.category.findFirst({
@@ -24,6 +24,7 @@ const createCategory = async (payload: { name: string }) => {
   const result = await prisma.category.create({
     data: {
       name: categoryName,
+      description:payload.description
     },
   });
 

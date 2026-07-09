@@ -8,6 +8,12 @@ const createCategoryValidationSchema = z.object({
     .trim()
     .min(2, "Category name must be at least 2 characters")
     .max(50, "Category name cannot exceed 50 characters"),
+
+  description: z
+    .string()
+    .trim()
+    .max(500, "Description cannot exceed 500 characters")
+    .optional(),
 });
 
 const updateCategoryValidationSchema = z.object({
@@ -18,6 +24,12 @@ const updateCategoryValidationSchema = z.object({
     .trim()
     .min(2, "Category name must be at least 2 characters")
     .max(50, "Category name cannot exceed 50 characters")
+    .optional(),
+
+  description: z
+    .string()
+    .trim()
+    .max(500, "Description cannot exceed 500 characters")
     .optional(),
 });
 
