@@ -108,6 +108,20 @@ const deleteGear = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllGearFilter = catchAsync(async (req: Request, res: Response) => {
+  const result = await GearService.getAllGearService(req.query);
+  console.log(req.query)
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Gear retrieved successfully",
+ 
+    data: result.data,
+  });
+});
+
+
 export const GearController = {
   createGear,
   getAllGear,
@@ -116,4 +130,5 @@ export const GearController = {
   getMySingleGear,
   updateGear,
   deleteGear,
+  getAllGearFilter
 };

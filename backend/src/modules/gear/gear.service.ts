@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import httpStatus from "http-status";
 import { prisma } from "../../config/prisma";
 import AppError from "../../error/Apperror";
@@ -400,6 +401,124 @@ const deleteGear = async (
   return null;
 };
 
+
+const getAllGearService = async (query: Record<string, any>) => {
+  const {
+    search,
+    category,
+    brand,
+    minPrice,
+    maxPrice,
+    available,
+    page = "1",
+    limit = "10",
+    sortBy = "createdAt",
+    sortOrder = "desc",
+  } = query;
+
+  const where: Prisma.GearItemWhereInput = {};
+
+  // Search by name or description
+  if (search) {
+    where.OR = [
+      {
+        name: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        description: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+    ];
+  }
+
+  // Category filter
+  if (category) {
+    where.categoryId = category;
+  }
+
+  // Brand filter
+  if (brand) {
+    where.brand = {
+      contains: brand,
+      mode: "insensitive",
+    };
+  }
+
+  // Price filter
+  if (minPrice || maxPrice) {
+    where.pricePerDay = {};
+
+    if (minPrice) {
+      where.pricePerDay.gte = Number(minPrice);
+    }
+
+    if (maxPrice) {
+      where.pricePerDay.lte = Number(maxPrice);
+    }
+  }
+
+  // Availability filter
+ if (available !== undefined) {
+  where.isAvailable = available === "true";
+}
+  const pageNumber = Number(page);
+  const limitNumber = Number(limit);
+
+  const skip = (pageNumber - 1) * limitNumber;
+
+const orderBy: Prisma.GearItemOrderByWithRelationInput = {
+  [sortBy]:
+    sortOrder === "asc"
+      ? Prisma.SortOrder.asc
+      : Prisma.SortOrder.desc,
+};
+
+console.log("Order By:", orderBy);
+
+  const [gear, total] = await Promise.all([
+    prisma.gearItem.findMany({
+      where,
+      skip,
+      take: limitNumber,
+      orderBy: {
+         [sortBy]:
+    sortOrder === "asc"
+      ? Prisma.SortOrder.asc
+      : Prisma.SortOrder.desc,
+      },
+      include: {
+        category: true,
+        provider: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    }),
+
+    prisma.gearItem.count({
+      where,
+    }),
+  ]);
+
+  return {
+    meta: {
+      page: pageNumber,
+      limit: limitNumber,
+      total,
+      totalPage: Math.ceil(total / limitNumber),
+    },
+    data: gear,
+  };
+};
+
 export const GearService = {
   createGear,
     getAllGear,
@@ -407,6 +526,6 @@ export const GearService = {
     getMyGear,
     getMySingleGear,
     updateGear,
-    deleteGear
-
+    deleteGear,
+getAllGearService
 };

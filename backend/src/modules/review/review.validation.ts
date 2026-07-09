@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const createReviewSchema = z.object({
-  gearId: z.string().uuid("Invalid gear ID"),
+  rentalId: z.string().uuid("Invalid rental ID"),
 
   rating: z
     .number()

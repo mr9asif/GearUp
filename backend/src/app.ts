@@ -4,10 +4,12 @@ import { prisma } from "./config/prisma";
 import { AdminRoutes } from "./modules/admin/admin.route";
 import { AuthRoutes } from "./modules/auth/auth.route";
 import { CategoryRoutes } from "./modules/category/category.route";
+import { DashboardRoutes } from "./modules/dashboard/dashboard.route";
 import { GearRoutes } from "./modules/gear/gear.route";
 import { ProviderGearRoutes } from "./modules/gear/providerGear.route";
 import { PaymentRoutes } from "./modules/payment/payment.route";
 import { RentalRoutes } from "./modules/rental/rental.route";
+import { ReviewRoutes } from "./modules/review/review.route";
 
 
 const app:Application = express();
@@ -35,7 +37,8 @@ app.use("/api/gear", GearRoutes);
 app.use("/api/provider/gear", ProviderGearRoutes);
 app.use("/api/payments", PaymentRoutes);
 app.use("/api/rentals", RentalRoutes);
-
+app.use("/api/reviews", ReviewRoutes)
+app.use("/api/dashboard", DashboardRoutes)
 
 
 export const startServer=async()=> {

@@ -11,7 +11,7 @@ const router = express.Router();
 
 // Customer Routes
 router.post(
-  "/",
+  "/create",
   auth(Role.CUSTOMER),
   validateRequest(ReviewValidation.createReviewSchema),
   ReviewController.createReview
