@@ -4,10 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GearService = void 0;
-const client_1 = require("@prisma/client");
 const http_status_1 = __importDefault(require("http-status"));
 const prisma_1 = require("../../config/prisma");
 const Apperror_1 = __importDefault(require("../../error/Apperror"));
+const prisma_2 = require("../../generated/prisma");
 const uploadToCloudinary_1 = require("../../utils/uploadToCloudinary");
 const createGear = async (providerId, payload, files) => {
     // Check category
@@ -352,8 +352,8 @@ const getAllGearService = async (query) => {
     const skip = (pageNumber - 1) * limitNumber;
     const orderBy = {
         [sortBy]: sortOrder === "asc"
-            ? client_1.Prisma.SortOrder.asc
-            : client_1.Prisma.SortOrder.desc,
+            ? prisma_2.Prisma.SortOrder.asc
+            : prisma_2.Prisma.SortOrder.desc,
     };
     console.log("Order By:", orderBy);
     const [gear, total] = await Promise.all([
@@ -363,8 +363,8 @@ const getAllGearService = async (query) => {
             take: limitNumber,
             orderBy: {
                 [sortBy]: sortOrder === "asc"
-                    ? client_1.Prisma.SortOrder.asc
-                    : client_1.Prisma.SortOrder.desc,
+                    ? prisma_2.Prisma.SortOrder.asc
+                    : prisma_2.Prisma.SortOrder.desc,
             },
             include: {
                 category: true,

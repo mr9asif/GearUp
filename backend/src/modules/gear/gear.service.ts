@@ -1,7 +1,8 @@
-import { Prisma } from "@prisma/client";
+
 import httpStatus from "http-status";
 import { prisma } from "../../config/prisma";
 import AppError from "../../error/Apperror";
+import { Prisma } from "../../generated/prisma";
 import { uploadToCloudinary } from "../../utils/uploadToCloudinary";
 import { TCreateGearPayload } from "./gear.interface";
 
