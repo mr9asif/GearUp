@@ -26,6 +26,11 @@ router.patch(
   auth(Role.PROVIDER),
   ProviderRentalController.acceptRental
 );
+router.get(
+  "/incoming-orders",
+  auth(Role.PROVIDER),
+  ProviderRentalController.getIncomingOrders
+);
 
 // Reject order
 router.patch(

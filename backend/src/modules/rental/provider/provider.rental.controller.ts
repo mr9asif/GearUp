@@ -103,6 +103,22 @@ const completeRental = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+
+// get incoming orders
+const getIncomingOrders = catchAsync(async (req, res) => {
+  const providerId = req.user.id;
+
+  const result =
+    await ProviderRentalService.getIncomingOrders(providerId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Incoming rental orders retrieved successfully",
+    data: result,
+  });
+});
+
 export const ProviderRentalController = {
   getProviderOrders,
   getSingleOrder,
@@ -110,4 +126,5 @@ export const ProviderRentalController = {
   rejectRental,
   startRental,
   completeRental,
+  getIncomingOrders
 };

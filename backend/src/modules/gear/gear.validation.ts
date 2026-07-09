@@ -23,19 +23,14 @@ const createGearValidationSchema = z.object({
     .min(10, "Description must be at least 10 characters")
     .max(1000, "Description cannot exceed 1000 characters"),
 
-  pricePerDay: z
+  pricePerDay: z.coerce
     .number()
     .positive("Price per day must be greater than 0"),
 
-  stock: z
+  stock: z.coerce
     .number()
     .int("Stock must be an integer")
     .min(1, "Stock must be at least 1"),
-
-  images: z
-    .array(z.string().url("Each image must be a valid URL"))
-    .min(1, "At least one image is required")
-    .max(5, "Maximum 5 images are allowed"),
 });
 
 const updateGearValidationSchema = z.object({
@@ -47,42 +42,36 @@ const updateGearValidationSchema = z.object({
   name: z
     .string()
     .trim()
-    .min(2)
-    .max(100)
+    .min(2, "Gear name must be at least 2 characters")
+    .max(100, "Gear name cannot exceed 100 characters")
     .optional(),
 
   brand: z
     .string()
     .trim()
-    .min(2)
-    .max(50)
+    .min(2, "Brand name must be at least 2 characters")
+    .max(50, "Brand name cannot exceed 50 characters")
     .optional(),
 
   description: z
     .string()
     .trim()
-    .min(10)
-    .max(1000)
+    .min(10, "Description must be at least 10 characters")
+    .max(1000, "Description cannot exceed 1000 characters")
     .optional(),
 
-  pricePerDay: z
+  pricePerDay: z.coerce
     .number()
-    .positive()
+    .positive("Price per day must be greater than 0")
     .optional(),
 
-  stock: z
+  stock: z.coerce
     .number()
-    .int()
-    .min(1)
+    .int("Stock must be an integer")
+    .min(1, "Stock must be at least 1")
     .optional(),
 
-  images: z
-    .array(z.string().url())
-    .min(1)
-    .max(5)
-    .optional(),
-
-  isAvailable: z
+  isAvailable: z.coerce
     .boolean()
     .optional(),
 });

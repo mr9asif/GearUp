@@ -2,20 +2,15 @@ import { Prisma } from "@prisma/client";
 import httpStatus from "http-status";
 import { prisma } from "../../config/prisma";
 import AppError from "../../error/Apperror";
+import { uploadToCloudinary } from "../../utils/uploadToCloudinary";
+import { TCreateGearPayload } from "./gear.interface";
 
 const createGear = async (
   providerId: string,
-  payload: {
-    categoryId: string;
-    name: string;
-    brand: string;
-    description: string;
-    pricePerDay: number;
-    stock: number;
-    images: string[];
-  }
+  payload: TCreateGearPayload,
+  files: Express.Multer.File[]
 ) => {
-  // Check category exists
+  // Check category
   const category = await prisma.category.findUnique({
     where: {
       id: payload.categoryId,
@@ -23,13 +18,10 @@ const createGear = async (
   });
 
   if (!category) {
-    throw new AppError(
-      httpStatus.NOT_FOUND,
-      "Category not found."
-    );
+    throw new AppError(httpStatus.NOT_FOUND, "Category not found.");
   }
 
-  // Check provider exists
+  // Check provider
   const provider = await prisma.user.findUnique({
     where: {
       id: providerId,
@@ -37,12 +29,24 @@ const createGear = async (
   });
 
   if (!provider) {
-    throw new AppError(
-      httpStatus.NOT_FOUND,
-      "Provider not found."
-    );
+    throw new AppError(httpStatus.NOT_FOUND, "Provider not found.");
   }
 
+  // Upload images to Cloudinary
+  const imageUrls: string[] = [];
+
+  if (files?.length) {
+    for (const file of files) {
+      const uploadedImage = await uploadToCloudinary(
+        file,
+        "gearup/gear"
+      );
+
+      imageUrls.push(uploadedImage.secure_url);
+    }
+  }
+
+  // Create gear
   const gear = await prisma.gearItem.create({
     data: {
       providerId,
@@ -50,9 +54,9 @@ const createGear = async (
       name: payload.name.trim(),
       brand: payload.brand.trim(),
       description: payload.description.trim(),
-      pricePerDay: payload.pricePerDay,
-      stock: payload.stock,
-      images: payload.images,
+      pricePerDay: Number(payload.pricePerDay),
+      stock: Number(payload.stock),
+      images: imageUrls,
     },
     include: {
       category: true,
@@ -68,6 +72,7 @@ const createGear = async (
 
   return gear;
 };
+
 
 
 

@@ -8,11 +8,15 @@ import { GearService } from "./gear.service";
 const createGear = catchAsync(async (req: Request, res: Response) => {
   const providerId = req.user.id;
 
-  const result = await GearService.createGear(providerId, req.body);
-
+    const result = await GearService.createGear(
+    providerId,
+    req.body,
+    req.files as Express.Multer.File[]
+  );
+console.log(req.files)
   sendResponse(res, {
-    statusCode: httpStatus.CREATED,
     success: true,
+    statusCode: httpStatus.CREATED,
     message: "Gear created successfully",
     data: result,
   });

@@ -314,10 +314,56 @@ const completeRental = async (
   return updatedOrder;
 };
 
+
+// get incomming order service
+const getIncomingOrders = async (providerId: string) => {
+  const orders = await prisma.rentalOrder.findMany({
+    where: {
+      gear: {
+        providerId,
+      },
+
+      status: {
+        in: [
+          RentalStatus.PLACED,
+          RentalStatus.CONFIRMED,
+          RentalStatus.PAID,
+        ],
+      },
+    },
+
+    orderBy: {
+      createdAt: "desc",
+    },
+
+    include: {
+      customer: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          phone: true,
+          profileImage: true,
+        },
+      },
+
+      gear: {
+        include: {
+          category: true,
+        },
+      },
+
+      payment: true,
+    },
+  });
+
+  return orders;
+};
+
 export const ProviderRentalService = {
   getProviderOrders,
   getProviderOrderById,
-
+getIncomingOrders,
  acceptRental,
  rejectRental,
  startRental,

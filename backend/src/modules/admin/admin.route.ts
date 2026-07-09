@@ -30,4 +30,18 @@ router.patch(
   AdminController.updateUserStatus
 );
 
+// admin.route.ts
+
+router.get(
+  "/gear",
+  auth(Role.ADMIN),
+  AdminController.getAllGear
+);
+
+router.get(
+  "/rentals",
+  auth(Role.ADMIN),
+  AdminController.getAllRentals
+);
+
 export const AdminRoutes = router;

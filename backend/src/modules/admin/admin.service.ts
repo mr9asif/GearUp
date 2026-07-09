@@ -147,8 +147,68 @@ const updateUserStatus = async (
   return updatedUser;
 };
 
+
+// get all geaar 
+const getAllGear = async () => {
+  const gear = await prisma.gearItem.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      category: true,
+      provider: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          profileImage: true,
+        },
+      },
+    },
+  });
+
+  return gear;
+};
+
+// get all rentals
+const getAllRentals = async () => {
+  const rentals = await prisma.rentalOrder.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      customer: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          profileImage: true,
+        },
+      },
+
+      gear: {
+        include: {
+          category: true,
+          provider: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+        },
+      },
+
+      payment: true,
+    },
+  });
+
+  return rentals;
+};
 export const AdminService = {
   getAllUsers,
   getSingleUser,
   updateUserStatus,
+  getAllGear,
+  getAllRentals
 };

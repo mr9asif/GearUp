@@ -4,6 +4,7 @@ import { Role } from "../../generated/prisma";
 import auth from "../../middleware/auth";
 import validateRequest from "../../middleware/validateRequest";
 
+import { upload } from "../../middleware/multer";
 import { GearController } from "./gear.controller";
 import { GearValidation } from "./gear.validation";
 
@@ -12,6 +13,7 @@ const router = express.Router();
 router.post(
   "/",
   auth(Role.PROVIDER),
+    upload.array("images", 5),
   validateRequest(GearValidation.createGearValidationSchema),
   GearController.createGear
 );

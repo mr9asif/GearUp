@@ -10,6 +10,7 @@ import { ProviderGearRoutes } from "./modules/gear/providerGear.route";
 import { PaymentRoutes } from "./modules/payment/payment.route";
 import { RentalRoutes } from "./modules/rental/rental.route";
 import { ReviewRoutes } from "./modules/review/review.route";
+import { ProfileRoute } from "./modules/user/user.route";
 
 
 const app:Application = express();
@@ -39,6 +40,7 @@ app.use("/api/payments", PaymentRoutes);
 app.use("/api/rentals", RentalRoutes);
 app.use("/api/reviews", ReviewRoutes)
 app.use("/api/dashboard", DashboardRoutes)
+app.use("/api/profile", ProfileRoute)
 
 
 export const startServer=async()=> {
