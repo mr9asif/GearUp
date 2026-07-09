@@ -30,6 +30,14 @@ router.post(
   PaymentController.confirmPayment
 );
 
+router.get("/success", (req, res) => {
+  res.send("Payment successful!");
+});
+
+router.get("/cancel", (req, res) => {
+  res.send("Payment cancelled!");
+});
+
 // Get Logged-in User Payment History
 router.get(
   "/",

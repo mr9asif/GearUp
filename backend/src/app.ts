@@ -1,4 +1,5 @@
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import express, { Application } from "express";
 import { prisma } from "./config/prisma";
 import { AdminRoutes } from "./modules/admin/admin.route";
@@ -12,10 +13,13 @@ import { RentalRoutes } from "./modules/rental/rental.route";
 import { ReviewRoutes } from "./modules/review/review.route";
 import { ProfileRoute } from "./modules/user/user.route";
 
-
 const app:Application = express();
 
 // middleware
+app.use(cors({
+  origin: process.env.CLIENT_URL,
+  credentials: true,
+}));
 app.use(
   "/api/payments/confirm",
   express.raw({ type: "application/json" })
@@ -23,7 +27,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/asif", (_, res) => {
+app.get("/", (_, res) => {
   res.json({
     success: true,
     message: "GearUp API is running 🚀",

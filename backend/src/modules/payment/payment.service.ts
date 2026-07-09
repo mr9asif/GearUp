@@ -1,8 +1,13 @@
 import httpStatus from "http-status";
+import Stripe from "stripe";
 
 import { prisma } from "../../config/prisma";
 import AppError from "../../error/Apperror";
-import { RentalStatus } from "../../generated/prisma";
+import {
+  PaymentProvider,
+  PaymentStatus,
+  RentalStatus
+} from "../../generated/prisma";
 import { stripe } from "./stripe/stripe";
 
 const createCheckoutSession = async (
@@ -87,13 +92,6 @@ const createCheckoutSession = async (
 };
 
 // cofirm payment
-import Stripe from "stripe";
-
-import {
-    PaymentProvider,
-    PaymentStatus
-} from "../../generated/prisma";
-
 const confirmPayment = async (
   signature: string,
   payload: Buffer
@@ -179,6 +177,8 @@ const confirmPayment = async (
     received: true,
   };
 };
+
+
 
 
 const getMyPayments = async (customerId: string) => {
