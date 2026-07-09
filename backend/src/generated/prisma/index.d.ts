@@ -5281,6 +5281,7 @@ export namespace Prisma {
     payment?: boolean | RentalOrder$paymentArgs<ExtArgs>
     customer?: boolean | UserDefaultArgs<ExtArgs>
     gear?: boolean | GearItemDefaultArgs<ExtArgs>
+    review?: boolean | RentalOrder$reviewArgs<ExtArgs>
   }, ExtArgs["result"]["rentalOrder"]>
 
   export type RentalOrderSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5331,6 +5332,7 @@ export namespace Prisma {
     payment?: boolean | RentalOrder$paymentArgs<ExtArgs>
     customer?: boolean | UserDefaultArgs<ExtArgs>
     gear?: boolean | GearItemDefaultArgs<ExtArgs>
+    review?: boolean | RentalOrder$reviewArgs<ExtArgs>
   }
   export type RentalOrderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | UserDefaultArgs<ExtArgs>
@@ -5347,6 +5349,7 @@ export namespace Prisma {
       payment: Prisma.$PaymentPayload<ExtArgs> | null
       customer: Prisma.$UserPayload<ExtArgs>
       gear: Prisma.$GearItemPayload<ExtArgs>
+      review: Prisma.$ReviewPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5756,6 +5759,7 @@ export namespace Prisma {
     payment<T extends RentalOrder$paymentArgs<ExtArgs> = {}>(args?: Subset<T, RentalOrder$paymentArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     customer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     gear<T extends GearItemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, GearItemDefaultArgs<ExtArgs>>): Prisma__GearItemClient<$Result.GetResult<Prisma.$GearItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    review<T extends RentalOrder$reviewArgs<ExtArgs> = {}>(args?: Subset<T, RentalOrder$reviewArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6212,6 +6216,25 @@ export namespace Prisma {
      */
     include?: PaymentInclude<ExtArgs> | null
     where?: PaymentWhereInput
+  }
+
+  /**
+   * RentalOrder.review
+   */
+  export type RentalOrder$reviewArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Review
+     */
+    select?: ReviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Review
+     */
+    omit?: ReviewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReviewInclude<ExtArgs> | null
+    where?: ReviewWhereInput
   }
 
   /**
@@ -7406,6 +7429,7 @@ export namespace Prisma {
     id: string | null
     customerId: string | null
     gearId: string | null
+    rentalId: string | null
     rating: number | null
     comment: string | null
     createdAt: Date | null
@@ -7416,6 +7440,7 @@ export namespace Prisma {
     id: string | null
     customerId: string | null
     gearId: string | null
+    rentalId: string | null
     rating: number | null
     comment: string | null
     createdAt: Date | null
@@ -7426,6 +7451,7 @@ export namespace Prisma {
     id: number
     customerId: number
     gearId: number
+    rentalId: number
     rating: number
     comment: number
     createdAt: number
@@ -7446,6 +7472,7 @@ export namespace Prisma {
     id?: true
     customerId?: true
     gearId?: true
+    rentalId?: true
     rating?: true
     comment?: true
     createdAt?: true
@@ -7456,6 +7483,7 @@ export namespace Prisma {
     id?: true
     customerId?: true
     gearId?: true
+    rentalId?: true
     rating?: true
     comment?: true
     createdAt?: true
@@ -7466,6 +7494,7 @@ export namespace Prisma {
     id?: true
     customerId?: true
     gearId?: true
+    rentalId?: true
     rating?: true
     comment?: true
     createdAt?: true
@@ -7563,6 +7592,7 @@ export namespace Prisma {
     id: string
     customerId: string
     gearId: string
+    rentalId: string
     rating: number
     comment: string
     createdAt: Date
@@ -7592,60 +7622,70 @@ export namespace Prisma {
     id?: boolean
     customerId?: boolean
     gearId?: boolean
+    rentalId?: boolean
     rating?: boolean
     comment?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     customer?: boolean | UserDefaultArgs<ExtArgs>
     gear?: boolean | GearItemDefaultArgs<ExtArgs>
+    rental?: boolean | RentalOrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["review"]>
 
   export type ReviewSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     customerId?: boolean
     gearId?: boolean
+    rentalId?: boolean
     rating?: boolean
     comment?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     customer?: boolean | UserDefaultArgs<ExtArgs>
     gear?: boolean | GearItemDefaultArgs<ExtArgs>
+    rental?: boolean | RentalOrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["review"]>
 
   export type ReviewSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     customerId?: boolean
     gearId?: boolean
+    rentalId?: boolean
     rating?: boolean
     comment?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     customer?: boolean | UserDefaultArgs<ExtArgs>
     gear?: boolean | GearItemDefaultArgs<ExtArgs>
+    rental?: boolean | RentalOrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["review"]>
 
   export type ReviewSelectScalar = {
     id?: boolean
     customerId?: boolean
     gearId?: boolean
+    rentalId?: boolean
     rating?: boolean
     comment?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ReviewOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "gearId" | "rating" | "comment" | "createdAt" | "updatedAt", ExtArgs["result"]["review"]>
+  export type ReviewOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "gearId" | "rentalId" | "rating" | "comment" | "createdAt" | "updatedAt", ExtArgs["result"]["review"]>
   export type ReviewInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | UserDefaultArgs<ExtArgs>
     gear?: boolean | GearItemDefaultArgs<ExtArgs>
+    rental?: boolean | RentalOrderDefaultArgs<ExtArgs>
   }
   export type ReviewIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | UserDefaultArgs<ExtArgs>
     gear?: boolean | GearItemDefaultArgs<ExtArgs>
+    rental?: boolean | RentalOrderDefaultArgs<ExtArgs>
   }
   export type ReviewIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | UserDefaultArgs<ExtArgs>
     gear?: boolean | GearItemDefaultArgs<ExtArgs>
+    rental?: boolean | RentalOrderDefaultArgs<ExtArgs>
   }
 
   export type $ReviewPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7653,11 +7693,13 @@ export namespace Prisma {
     objects: {
       customer: Prisma.$UserPayload<ExtArgs>
       gear: Prisma.$GearItemPayload<ExtArgs>
+      rental: Prisma.$RentalOrderPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       customerId: string
       gearId: string
+      rentalId: string
       rating: number
       comment: string
       createdAt: Date
@@ -8058,6 +8100,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     customer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     gear<T extends GearItemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, GearItemDefaultArgs<ExtArgs>>): Prisma__GearItemClient<$Result.GetResult<Prisma.$GearItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    rental<T extends RentalOrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RentalOrderDefaultArgs<ExtArgs>>): Prisma__RentalOrderClient<$Result.GetResult<Prisma.$RentalOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8090,6 +8133,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Review", 'String'>
     readonly customerId: FieldRef<"Review", 'String'>
     readonly gearId: FieldRef<"Review", 'String'>
+    readonly rentalId: FieldRef<"Review", 'String'>
     readonly rating: FieldRef<"Review", 'Int'>
     readonly comment: FieldRef<"Review", 'String'>
     readonly createdAt: FieldRef<"Review", 'DateTime'>
@@ -8607,6 +8651,7 @@ export namespace Prisma {
     id: 'id',
     customerId: 'customerId',
     gearId: 'gearId',
+    rentalId: 'rentalId',
     rating: 'rating',
     comment: 'comment',
     createdAt: 'createdAt',
@@ -9054,6 +9099,7 @@ export namespace Prisma {
     payment?: XOR<PaymentNullableScalarRelationFilter, PaymentWhereInput> | null
     customer?: XOR<UserScalarRelationFilter, UserWhereInput>
     gear?: XOR<GearItemScalarRelationFilter, GearItemWhereInput>
+    review?: XOR<ReviewNullableScalarRelationFilter, ReviewWhereInput> | null
   }
 
   export type RentalOrderOrderByWithRelationInput = {
@@ -9070,6 +9116,7 @@ export namespace Prisma {
     payment?: PaymentOrderByWithRelationInput
     customer?: UserOrderByWithRelationInput
     gear?: GearItemOrderByWithRelationInput
+    review?: ReviewOrderByWithRelationInput
   }
 
   export type RentalOrderWhereUniqueInput = Prisma.AtLeast<{
@@ -9089,6 +9136,7 @@ export namespace Prisma {
     payment?: XOR<PaymentNullableScalarRelationFilter, PaymentWhereInput> | null
     customer?: XOR<UserScalarRelationFilter, UserWhereInput>
     gear?: XOR<GearItemScalarRelationFilter, GearItemWhereInput>
+    review?: XOR<ReviewNullableScalarRelationFilter, ReviewWhereInput> | null
   }, "id">
 
   export type RentalOrderOrderByWithAggregationInput = {
@@ -9209,28 +9257,33 @@ export namespace Prisma {
     id?: UuidFilter<"Review"> | string
     customerId?: UuidFilter<"Review"> | string
     gearId?: UuidFilter<"Review"> | string
+    rentalId?: UuidFilter<"Review"> | string
     rating?: IntFilter<"Review"> | number
     comment?: StringFilter<"Review"> | string
     createdAt?: DateTimeFilter<"Review"> | Date | string
     updatedAt?: DateTimeFilter<"Review"> | Date | string
     customer?: XOR<UserScalarRelationFilter, UserWhereInput>
     gear?: XOR<GearItemScalarRelationFilter, GearItemWhereInput>
+    rental?: XOR<RentalOrderScalarRelationFilter, RentalOrderWhereInput>
   }
 
   export type ReviewOrderByWithRelationInput = {
     id?: SortOrder
     customerId?: SortOrder
     gearId?: SortOrder
+    rentalId?: SortOrder
     rating?: SortOrder
     comment?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     customer?: UserOrderByWithRelationInput
     gear?: GearItemOrderByWithRelationInput
+    rental?: RentalOrderOrderByWithRelationInput
   }
 
   export type ReviewWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    rentalId?: string
     AND?: ReviewWhereInput | ReviewWhereInput[]
     OR?: ReviewWhereInput[]
     NOT?: ReviewWhereInput | ReviewWhereInput[]
@@ -9242,12 +9295,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Review"> | Date | string
     customer?: XOR<UserScalarRelationFilter, UserWhereInput>
     gear?: XOR<GearItemScalarRelationFilter, GearItemWhereInput>
-  }, "id">
+    rental?: XOR<RentalOrderScalarRelationFilter, RentalOrderWhereInput>
+  }, "id" | "rentalId">
 
   export type ReviewOrderByWithAggregationInput = {
     id?: SortOrder
     customerId?: SortOrder
     gearId?: SortOrder
+    rentalId?: SortOrder
     rating?: SortOrder
     comment?: SortOrder
     createdAt?: SortOrder
@@ -9266,6 +9321,7 @@ export namespace Prisma {
     id?: UuidWithAggregatesFilter<"Review"> | string
     customerId?: UuidWithAggregatesFilter<"Review"> | string
     gearId?: UuidWithAggregatesFilter<"Review"> | string
+    rentalId?: UuidWithAggregatesFilter<"Review"> | string
     rating?: IntWithAggregatesFilter<"Review"> | number
     comment?: StringWithAggregatesFilter<"Review"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Review"> | Date | string
@@ -9558,6 +9614,7 @@ export namespace Prisma {
     payment?: PaymentCreateNestedOneWithoutOrderInput
     customer: UserCreateNestedOneWithoutRentalsInput
     gear: GearItemCreateNestedOneWithoutRentalsInput
+    review?: ReviewCreateNestedOneWithoutRentalInput
   }
 
   export type RentalOrderUncheckedCreateInput = {
@@ -9572,6 +9629,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     payment?: PaymentUncheckedCreateNestedOneWithoutOrderInput
+    review?: ReviewUncheckedCreateNestedOneWithoutRentalInput
   }
 
   export type RentalOrderUpdateInput = {
@@ -9586,6 +9644,7 @@ export namespace Prisma {
     payment?: PaymentUpdateOneWithoutOrderNestedInput
     customer?: UserUpdateOneRequiredWithoutRentalsNestedInput
     gear?: GearItemUpdateOneRequiredWithoutRentalsNestedInput
+    review?: ReviewUpdateOneWithoutRentalNestedInput
   }
 
   export type RentalOrderUncheckedUpdateInput = {
@@ -9600,6 +9659,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payment?: PaymentUncheckedUpdateOneWithoutOrderNestedInput
+    review?: ReviewUncheckedUpdateOneWithoutRentalNestedInput
   }
 
   export type RentalOrderCreateManyInput = {
@@ -9730,12 +9790,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     customer: UserCreateNestedOneWithoutReviewsInput
     gear: GearItemCreateNestedOneWithoutReviewsInput
+    rental: RentalOrderCreateNestedOneWithoutReviewInput
   }
 
   export type ReviewUncheckedCreateInput = {
     id?: string
     customerId: string
     gearId: string
+    rentalId: string
     rating: number
     comment: string
     createdAt?: Date | string
@@ -9750,12 +9812,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: UserUpdateOneRequiredWithoutReviewsNestedInput
     gear?: GearItemUpdateOneRequiredWithoutReviewsNestedInput
+    rental?: RentalOrderUpdateOneRequiredWithoutReviewNestedInput
   }
 
   export type ReviewUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     customerId?: StringFieldUpdateOperationsInput | string
     gearId?: StringFieldUpdateOperationsInput | string
+    rentalId?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9766,6 +9830,7 @@ export namespace Prisma {
     id?: string
     customerId: string
     gearId: string
+    rentalId: string
     rating: number
     comment: string
     createdAt?: Date | string
@@ -9784,6 +9849,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     customerId?: StringFieldUpdateOperationsInput | string
     gearId?: StringFieldUpdateOperationsInput | string
+    rentalId?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10195,6 +10261,11 @@ export namespace Prisma {
     isNot?: GearItemWhereInput
   }
 
+  export type ReviewNullableScalarRelationFilter = {
+    is?: ReviewWhereInput | null
+    isNot?: ReviewWhereInput | null
+  }
+
   export type RentalOrderCountOrderByAggregateInput = {
     id?: SortOrder
     customerId?: SortOrder
@@ -10366,6 +10437,7 @@ export namespace Prisma {
     id?: SortOrder
     customerId?: SortOrder
     gearId?: SortOrder
+    rentalId?: SortOrder
     rating?: SortOrder
     comment?: SortOrder
     createdAt?: SortOrder
@@ -10380,6 +10452,7 @@ export namespace Prisma {
     id?: SortOrder
     customerId?: SortOrder
     gearId?: SortOrder
+    rentalId?: SortOrder
     rating?: SortOrder
     comment?: SortOrder
     createdAt?: SortOrder
@@ -10390,6 +10463,7 @@ export namespace Prisma {
     id?: SortOrder
     customerId?: SortOrder
     gearId?: SortOrder
+    rentalId?: SortOrder
     rating?: SortOrder
     comment?: SortOrder
     createdAt?: SortOrder
@@ -10747,10 +10821,22 @@ export namespace Prisma {
     connect?: GearItemWhereUniqueInput
   }
 
+  export type ReviewCreateNestedOneWithoutRentalInput = {
+    create?: XOR<ReviewCreateWithoutRentalInput, ReviewUncheckedCreateWithoutRentalInput>
+    connectOrCreate?: ReviewCreateOrConnectWithoutRentalInput
+    connect?: ReviewWhereUniqueInput
+  }
+
   export type PaymentUncheckedCreateNestedOneWithoutOrderInput = {
     create?: XOR<PaymentCreateWithoutOrderInput, PaymentUncheckedCreateWithoutOrderInput>
     connectOrCreate?: PaymentCreateOrConnectWithoutOrderInput
     connect?: PaymentWhereUniqueInput
+  }
+
+  export type ReviewUncheckedCreateNestedOneWithoutRentalInput = {
+    create?: XOR<ReviewCreateWithoutRentalInput, ReviewUncheckedCreateWithoutRentalInput>
+    connectOrCreate?: ReviewCreateOrConnectWithoutRentalInput
+    connect?: ReviewWhereUniqueInput
   }
 
   export type EnumRentalStatusFieldUpdateOperationsInput = {
@@ -10783,6 +10869,16 @@ export namespace Prisma {
     update?: XOR<XOR<GearItemUpdateToOneWithWhereWithoutRentalsInput, GearItemUpdateWithoutRentalsInput>, GearItemUncheckedUpdateWithoutRentalsInput>
   }
 
+  export type ReviewUpdateOneWithoutRentalNestedInput = {
+    create?: XOR<ReviewCreateWithoutRentalInput, ReviewUncheckedCreateWithoutRentalInput>
+    connectOrCreate?: ReviewCreateOrConnectWithoutRentalInput
+    upsert?: ReviewUpsertWithoutRentalInput
+    disconnect?: ReviewWhereInput | boolean
+    delete?: ReviewWhereInput | boolean
+    connect?: ReviewWhereUniqueInput
+    update?: XOR<XOR<ReviewUpdateToOneWithWhereWithoutRentalInput, ReviewUpdateWithoutRentalInput>, ReviewUncheckedUpdateWithoutRentalInput>
+  }
+
   export type PaymentUncheckedUpdateOneWithoutOrderNestedInput = {
     create?: XOR<PaymentCreateWithoutOrderInput, PaymentUncheckedCreateWithoutOrderInput>
     connectOrCreate?: PaymentCreateOrConnectWithoutOrderInput
@@ -10791,6 +10887,16 @@ export namespace Prisma {
     delete?: PaymentWhereInput | boolean
     connect?: PaymentWhereUniqueInput
     update?: XOR<XOR<PaymentUpdateToOneWithWhereWithoutOrderInput, PaymentUpdateWithoutOrderInput>, PaymentUncheckedUpdateWithoutOrderInput>
+  }
+
+  export type ReviewUncheckedUpdateOneWithoutRentalNestedInput = {
+    create?: XOR<ReviewCreateWithoutRentalInput, ReviewUncheckedCreateWithoutRentalInput>
+    connectOrCreate?: ReviewCreateOrConnectWithoutRentalInput
+    upsert?: ReviewUpsertWithoutRentalInput
+    disconnect?: ReviewWhereInput | boolean
+    delete?: ReviewWhereInput | boolean
+    connect?: ReviewWhereUniqueInput
+    update?: XOR<XOR<ReviewUpdateToOneWithWhereWithoutRentalInput, ReviewUpdateWithoutRentalInput>, ReviewUncheckedUpdateWithoutRentalInput>
   }
 
   export type RentalOrderCreateNestedOneWithoutPaymentInput = {
@@ -10831,6 +10937,12 @@ export namespace Prisma {
     connect?: GearItemWhereUniqueInput
   }
 
+  export type RentalOrderCreateNestedOneWithoutReviewInput = {
+    create?: XOR<RentalOrderCreateWithoutReviewInput, RentalOrderUncheckedCreateWithoutReviewInput>
+    connectOrCreate?: RentalOrderCreateOrConnectWithoutReviewInput
+    connect?: RentalOrderWhereUniqueInput
+  }
+
   export type UserUpdateOneRequiredWithoutReviewsNestedInput = {
     create?: XOR<UserCreateWithoutReviewsInput, UserUncheckedCreateWithoutReviewsInput>
     connectOrCreate?: UserCreateOrConnectWithoutReviewsInput
@@ -10845,6 +10957,14 @@ export namespace Prisma {
     upsert?: GearItemUpsertWithoutReviewsInput
     connect?: GearItemWhereUniqueInput
     update?: XOR<XOR<GearItemUpdateToOneWithWhereWithoutReviewsInput, GearItemUpdateWithoutReviewsInput>, GearItemUncheckedUpdateWithoutReviewsInput>
+  }
+
+  export type RentalOrderUpdateOneRequiredWithoutReviewNestedInput = {
+    create?: XOR<RentalOrderCreateWithoutReviewInput, RentalOrderUncheckedCreateWithoutReviewInput>
+    connectOrCreate?: RentalOrderCreateOrConnectWithoutReviewInput
+    upsert?: RentalOrderUpsertWithoutReviewInput
+    connect?: RentalOrderWhereUniqueInput
+    update?: XOR<XOR<RentalOrderUpdateToOneWithWhereWithoutReviewInput, RentalOrderUpdateWithoutReviewInput>, RentalOrderUncheckedUpdateWithoutReviewInput>
   }
 
   export type NestedUuidFilter<$PrismaModel = never> = {
@@ -11211,6 +11331,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     payment?: PaymentCreateNestedOneWithoutOrderInput
     gear: GearItemCreateNestedOneWithoutRentalsInput
+    review?: ReviewCreateNestedOneWithoutRentalInput
   }
 
   export type RentalOrderUncheckedCreateWithoutCustomerInput = {
@@ -11224,6 +11345,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     payment?: PaymentUncheckedCreateNestedOneWithoutOrderInput
+    review?: ReviewUncheckedCreateNestedOneWithoutRentalInput
   }
 
   export type RentalOrderCreateOrConnectWithoutCustomerInput = {
@@ -11243,11 +11365,13 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     gear: GearItemCreateNestedOneWithoutReviewsInput
+    rental: RentalOrderCreateNestedOneWithoutReviewInput
   }
 
   export type ReviewUncheckedCreateWithoutCustomerInput = {
     id?: string
     gearId: string
+    rentalId: string
     rating: number
     comment: string
     createdAt?: Date | string
@@ -11353,6 +11477,7 @@ export namespace Prisma {
     id?: UuidFilter<"Review"> | string
     customerId?: UuidFilter<"Review"> | string
     gearId?: UuidFilter<"Review"> | string
+    rentalId?: UuidFilter<"Review"> | string
     rating?: IntFilter<"Review"> | number
     comment?: StringFilter<"Review"> | string
     createdAt?: DateTimeFilter<"Review"> | Date | string
@@ -11484,6 +11609,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     payment?: PaymentCreateNestedOneWithoutOrderInput
     customer: UserCreateNestedOneWithoutRentalsInput
+    review?: ReviewCreateNestedOneWithoutRentalInput
   }
 
   export type RentalOrderUncheckedCreateWithoutGearInput = {
@@ -11497,6 +11623,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     payment?: PaymentUncheckedCreateNestedOneWithoutOrderInput
+    review?: ReviewUncheckedCreateNestedOneWithoutRentalInput
   }
 
   export type RentalOrderCreateOrConnectWithoutGearInput = {
@@ -11516,11 +11643,13 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     customer: UserCreateNestedOneWithoutReviewsInput
+    rental: RentalOrderCreateNestedOneWithoutReviewInput
   }
 
   export type ReviewUncheckedCreateWithoutGearInput = {
     id?: string
     customerId: string
+    rentalId: string
     rating: number
     comment: string
     createdAt?: Date | string
@@ -11736,6 +11865,31 @@ export namespace Prisma {
     create: XOR<GearItemCreateWithoutRentalsInput, GearItemUncheckedCreateWithoutRentalsInput>
   }
 
+  export type ReviewCreateWithoutRentalInput = {
+    id?: string
+    rating: number
+    comment: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: UserCreateNestedOneWithoutReviewsInput
+    gear: GearItemCreateNestedOneWithoutReviewsInput
+  }
+
+  export type ReviewUncheckedCreateWithoutRentalInput = {
+    id?: string
+    customerId: string
+    gearId: string
+    rating: number
+    comment: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReviewCreateOrConnectWithoutRentalInput = {
+    where: ReviewWhereUniqueInput
+    create: XOR<ReviewCreateWithoutRentalInput, ReviewUncheckedCreateWithoutRentalInput>
+  }
+
   export type PaymentUpsertWithoutOrderInput = {
     update: XOR<PaymentUpdateWithoutOrderInput, PaymentUncheckedUpdateWithoutOrderInput>
     create: XOR<PaymentCreateWithoutOrderInput, PaymentUncheckedCreateWithoutOrderInput>
@@ -11853,6 +12007,37 @@ export namespace Prisma {
     reviews?: ReviewUncheckedUpdateManyWithoutGearNestedInput
   }
 
+  export type ReviewUpsertWithoutRentalInput = {
+    update: XOR<ReviewUpdateWithoutRentalInput, ReviewUncheckedUpdateWithoutRentalInput>
+    create: XOR<ReviewCreateWithoutRentalInput, ReviewUncheckedCreateWithoutRentalInput>
+    where?: ReviewWhereInput
+  }
+
+  export type ReviewUpdateToOneWithWhereWithoutRentalInput = {
+    where?: ReviewWhereInput
+    data: XOR<ReviewUpdateWithoutRentalInput, ReviewUncheckedUpdateWithoutRentalInput>
+  }
+
+  export type ReviewUpdateWithoutRentalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    comment?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: UserUpdateOneRequiredWithoutReviewsNestedInput
+    gear?: GearItemUpdateOneRequiredWithoutReviewsNestedInput
+  }
+
+  export type ReviewUncheckedUpdateWithoutRentalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    gearId?: StringFieldUpdateOperationsInput | string
+    rating?: IntFieldUpdateOperationsInput | number
+    comment?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type RentalOrderCreateWithoutPaymentInput = {
     id?: string
     quantity: number
@@ -11864,6 +12049,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     customer: UserCreateNestedOneWithoutRentalsInput
     gear: GearItemCreateNestedOneWithoutRentalsInput
+    review?: ReviewCreateNestedOneWithoutRentalInput
   }
 
   export type RentalOrderUncheckedCreateWithoutPaymentInput = {
@@ -11877,6 +12063,7 @@ export namespace Prisma {
     status?: $Enums.RentalStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    review?: ReviewUncheckedCreateNestedOneWithoutRentalInput
   }
 
   export type RentalOrderCreateOrConnectWithoutPaymentInput = {
@@ -11906,6 +12093,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: UserUpdateOneRequiredWithoutRentalsNestedInput
     gear?: GearItemUpdateOneRequiredWithoutRentalsNestedInput
+    review?: ReviewUpdateOneWithoutRentalNestedInput
   }
 
   export type RentalOrderUncheckedUpdateWithoutPaymentInput = {
@@ -11919,6 +12107,7 @@ export namespace Prisma {
     status?: EnumRentalStatusFieldUpdateOperationsInput | $Enums.RentalStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    review?: ReviewUncheckedUpdateOneWithoutRentalNestedInput
   }
 
   export type UserCreateWithoutReviewsInput = {
@@ -11991,6 +12180,39 @@ export namespace Prisma {
   export type GearItemCreateOrConnectWithoutReviewsInput = {
     where: GearItemWhereUniqueInput
     create: XOR<GearItemCreateWithoutReviewsInput, GearItemUncheckedCreateWithoutReviewsInput>
+  }
+
+  export type RentalOrderCreateWithoutReviewInput = {
+    id?: string
+    quantity: number
+    startDate: Date | string
+    endDate: Date | string
+    totalAmount: Decimal | DecimalJsLike | number | string
+    status?: $Enums.RentalStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    payment?: PaymentCreateNestedOneWithoutOrderInput
+    customer: UserCreateNestedOneWithoutRentalsInput
+    gear: GearItemCreateNestedOneWithoutRentalsInput
+  }
+
+  export type RentalOrderUncheckedCreateWithoutReviewInput = {
+    id?: string
+    customerId: string
+    gearId: string
+    quantity: number
+    startDate: Date | string
+    endDate: Date | string
+    totalAmount: Decimal | DecimalJsLike | number | string
+    status?: $Enums.RentalStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    payment?: PaymentUncheckedCreateNestedOneWithoutOrderInput
+  }
+
+  export type RentalOrderCreateOrConnectWithoutReviewInput = {
+    where: RentalOrderWhereUniqueInput
+    create: XOR<RentalOrderCreateWithoutReviewInput, RentalOrderUncheckedCreateWithoutReviewInput>
   }
 
   export type UserUpsertWithoutReviewsInput = {
@@ -12077,6 +12299,45 @@ export namespace Prisma {
     rentals?: RentalOrderUncheckedUpdateManyWithoutGearNestedInput
   }
 
+  export type RentalOrderUpsertWithoutReviewInput = {
+    update: XOR<RentalOrderUpdateWithoutReviewInput, RentalOrderUncheckedUpdateWithoutReviewInput>
+    create: XOR<RentalOrderCreateWithoutReviewInput, RentalOrderUncheckedCreateWithoutReviewInput>
+    where?: RentalOrderWhereInput
+  }
+
+  export type RentalOrderUpdateToOneWithWhereWithoutReviewInput = {
+    where?: RentalOrderWhereInput
+    data: XOR<RentalOrderUpdateWithoutReviewInput, RentalOrderUncheckedUpdateWithoutReviewInput>
+  }
+
+  export type RentalOrderUpdateWithoutReviewInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumRentalStatusFieldUpdateOperationsInput | $Enums.RentalStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payment?: PaymentUpdateOneWithoutOrderNestedInput
+    customer?: UserUpdateOneRequiredWithoutRentalsNestedInput
+    gear?: GearItemUpdateOneRequiredWithoutRentalsNestedInput
+  }
+
+  export type RentalOrderUncheckedUpdateWithoutReviewInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    gearId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumRentalStatusFieldUpdateOperationsInput | $Enums.RentalStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payment?: PaymentUncheckedUpdateOneWithoutOrderNestedInput
+  }
+
   export type GearItemCreateManyProviderInput = {
     id?: string
     categoryId: string
@@ -12106,6 +12367,7 @@ export namespace Prisma {
   export type ReviewCreateManyCustomerInput = {
     id?: string
     gearId: string
+    rentalId: string
     rating: number
     comment: string
     createdAt?: Date | string
@@ -12169,6 +12431,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payment?: PaymentUpdateOneWithoutOrderNestedInput
     gear?: GearItemUpdateOneRequiredWithoutRentalsNestedInput
+    review?: ReviewUpdateOneWithoutRentalNestedInput
   }
 
   export type RentalOrderUncheckedUpdateWithoutCustomerInput = {
@@ -12182,6 +12445,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payment?: PaymentUncheckedUpdateOneWithoutOrderNestedInput
+    review?: ReviewUncheckedUpdateOneWithoutRentalNestedInput
   }
 
   export type RentalOrderUncheckedUpdateManyWithoutCustomerInput = {
@@ -12203,11 +12467,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     gear?: GearItemUpdateOneRequiredWithoutReviewsNestedInput
+    rental?: RentalOrderUpdateOneRequiredWithoutReviewNestedInput
   }
 
   export type ReviewUncheckedUpdateWithoutCustomerInput = {
     id?: StringFieldUpdateOperationsInput | string
     gearId?: StringFieldUpdateOperationsInput | string
+    rentalId?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12217,6 +12483,7 @@ export namespace Prisma {
   export type ReviewUncheckedUpdateManyWithoutCustomerInput = {
     id?: StringFieldUpdateOperationsInput | string
     gearId?: StringFieldUpdateOperationsInput | string
+    rentalId?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12298,6 +12565,7 @@ export namespace Prisma {
   export type ReviewCreateManyGearInput = {
     id?: string
     customerId: string
+    rentalId: string
     rating: number
     comment: string
     createdAt?: Date | string
@@ -12315,6 +12583,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payment?: PaymentUpdateOneWithoutOrderNestedInput
     customer?: UserUpdateOneRequiredWithoutRentalsNestedInput
+    review?: ReviewUpdateOneWithoutRentalNestedInput
   }
 
   export type RentalOrderUncheckedUpdateWithoutGearInput = {
@@ -12328,6 +12597,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     payment?: PaymentUncheckedUpdateOneWithoutOrderNestedInput
+    review?: ReviewUncheckedUpdateOneWithoutRentalNestedInput
   }
 
   export type RentalOrderUncheckedUpdateManyWithoutGearInput = {
@@ -12349,11 +12619,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: UserUpdateOneRequiredWithoutReviewsNestedInput
+    rental?: RentalOrderUpdateOneRequiredWithoutReviewNestedInput
   }
 
   export type ReviewUncheckedUpdateWithoutGearInput = {
     id?: StringFieldUpdateOperationsInput | string
     customerId?: StringFieldUpdateOperationsInput | string
+    rentalId?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12363,6 +12635,7 @@ export namespace Prisma {
   export type ReviewUncheckedUpdateManyWithoutGearInput = {
     id?: StringFieldUpdateOperationsInput | string
     customerId?: StringFieldUpdateOperationsInput | string
+    rentalId?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

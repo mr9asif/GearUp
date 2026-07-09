@@ -70,9 +70,11 @@ model RentalOrder {
   status      RentalStatus @default(PLACED)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
-  payment     Payment?
-  customer    User         @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  gear        GearItem     @relation(fields: [gearId], references: [id])
+
+  payment  Payment?
+  customer User     @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  gear     GearItem @relation(fields: [gearId], references: [id])
+  review   Review?
 
   @@index([customerId])
   @@index([gearId])
@@ -95,15 +97,20 @@ model Payment {
 }
 
 model Review {
-  id         String   @id @default(uuid()) @db.Uuid
-  customerId String   @db.Uuid
-  gearId     String   @db.Uuid
-  rating     Int
-  comment    String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  customer   User     @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  gear       GearItem @relation(fields: [gearId], references: [id], onDelete: Cascade)
+  id         String @id @default(uuid()) @db.Uuid
+  customerId String @db.Uuid
+  gearId     String @db.Uuid
+  rentalId   String @unique @db.Uuid
+
+  rating  Int
+  comment String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  customer User        @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  gear     GearItem    @relation(fields: [gearId], references: [id], onDelete: Cascade)
+  rental   RentalOrder @relation(fields: [rentalId], references: [id], onDelete: Cascade)
 
   @@index([customerId])
   @@index([gearId])
