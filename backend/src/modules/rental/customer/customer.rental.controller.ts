@@ -68,9 +68,48 @@ const orderId = req.params.id as string;
   });
 });
 
+
+// track status
+const getRentalStatus = catchAsync(async (req, res) => {
+  const customerId = req.user.id;
+  const rentalId = req.params.id as string;
+
+  const result = await CustomerRentalService.getRentalStatus(
+    customerId,
+    rentalId
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Rental status retrieved successfully",
+    data: result,
+  });
+});
+
+// payment status
+const getPaymentStatus = catchAsync(async (req, res) => {
+  const customerId = req.user.id;
+  const rentalId = req.params.id as string;
+
+  const result = await CustomerRentalService.getPaymentStatus(
+    customerId,
+    rentalId
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Payment status retrieved successfully",
+    data: result,
+  });
+});
+
 export const CustomerRentalController = {
   createRental,
   getMyOrders,
   getMyOrderById,
   cancelRental,
+  getRentalStatus,
+   getPaymentStatus,
 };

@@ -37,4 +37,19 @@ router.patch(
   CustomerRentalController.cancelRental
 );
 
+// status trace
+router.get(
+  "/:id/rental-status",
+  auth(Role.CUSTOMER),
+  CustomerRentalController.getRentalStatus
+);
+
+// payment status 
+router.get(
+  "/:id/payment-status",
+  auth(Role.CUSTOMER),
+  CustomerRentalController.getPaymentStatus
+);
+
+
 export const CustomerRentalRoutes = router;

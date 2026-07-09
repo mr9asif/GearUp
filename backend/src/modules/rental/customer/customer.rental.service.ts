@@ -217,10 +217,100 @@ const cancelRental = async (
   return updatedRental;
 };
 
+// track status
+const getRentalStatus = async (
+  customerId: string,
+  rentalId: string
+) => {
+  const rental = await prisma.rentalOrder.findFirst({
+    where: {
+      id: rentalId,
+      customerId,
+    },
+    include: {
+      gear: {
+        select: {
+          id: true,
+          name: true,
+          images: true,
+        },
+      },
+      payment: {
+        select: {
+          id: true,
+          status: true,
+          amount: true,
+          provider: true,
+          paidAt: true,
+        },
+      },
+    },
+  });
+
+  if (!rental) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "Rental not found"
+    );
+  }
+
+  return {
+    rentalId: rental.id,
+    rentalStatus: rental.status,
+    paymentStatus: rental.payment?.status ?? "PENDING",
+    gear: rental.gear,
+    payment: rental.payment,
+  };
+};
+
+
+// payment status
+const getPaymentStatus = async (
+  customerId: string,
+  rentalId: string
+) => {
+  const rental = await prisma.rentalOrder.findFirst({
+    where: {
+      id: rentalId,
+      customerId,
+    },
+    include: {
+      payment: {
+        select: {
+          id: true,
+          transactionId: true,
+          amount: true,
+          provider: true,
+          status: true,
+          paidAt: true,
+          createdAt: true,
+        },
+      },
+    },
+  });
+
+  if (!rental) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "Rental not found"
+    );
+  }
+
+  if (!rental.payment) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "Payment not found"
+    );
+  }
+
+  return rental.payment;
+};
 
 export const CustomerRentalService = {
   createRental,
   getMyOrders,
 getMyOrderById,
-cancelRental
+cancelRental,
+getRentalStatus,
+  getPaymentStatus,
 };
