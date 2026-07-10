@@ -2,6 +2,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { Application } from "express";
 import { prisma } from "./config/prisma";
+import globalErrorHandler from "./error/globlalErrorHandler";
 import { AdminRoutes } from "./modules/admin/admin.route";
 import { AuthRoutes } from "./modules/auth/auth.route";
 import { CategoryRoutes } from "./modules/category/category.route";
@@ -46,6 +47,8 @@ app.use("/api/reviews", ReviewRoutes)
 app.use("/api/dashboard", DashboardRoutes)
 app.use("/api/profile", ProfileRoute)
 
+
+app.use(globalErrorHandler);
 
 export const startServer=async()=> {
   try {
