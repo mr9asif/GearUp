@@ -88,7 +88,7 @@ const getAllGear = async (query: Record<string, any>) => {
   const minPrice = query.minPrice;
   const maxPrice = query.maxPrice;
   const isAvailable = query.isAvailable;
-
+console.log(minPrice,maxPrice)
   const where: any = {};
 
   if (search) {
