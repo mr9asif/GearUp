@@ -90,7 +90,10 @@ const getSingleCategory = async (id: string) => {
 
 const updateCategory = async (
   id: string,
-  payload: { name?: string }
+  payload: {
+    name?: string;
+    description?: string;
+  }
 ) => {
   const category = await prisma.category.findUnique({
     where: {
@@ -131,8 +134,12 @@ const updateCategory = async (
       id,
     },
     data: {
-      ...payload,
-      name: payload.name?.trim(),
+      ...(payload.name && {
+        name: payload.name.trim(),
+      }),
+      ...(payload.description !== undefined && {
+        description: payload.description.trim(),
+      }),
     },
   });
 

@@ -157,6 +157,7 @@ const rejectRental = async (providerId, orderId) => {
     return updatedOrder;
 };
 // start rental || customer paid 
+// start rental || customer paid
 const startRental = async (providerId, orderId) => {
     const order = await prisma_1.prisma.rentalOrder.findFirst({
         where: {
@@ -172,30 +173,55 @@ const startRental = async (providerId, orderId) => {
     if (order.status !== prisma_2.RentalStatus.PAID) {
         throw new Apperror_1.default(http_status_1.default.BAD_REQUEST, "Only paid rentals can be started");
     }
-    const updatedOrder = await prisma_1.prisma.rentalOrder.update({
-        where: {
-            id: orderId,
-        },
-        data: {
-            status: prisma_2.RentalStatus.PICKED_UP,
-        },
-        include: {
-            customer: {
-                select: {
-                    id: true,
-                    name: true,
-                    email: true,
-                    phone: true,
-                    profileImage: true,
-                },
+    const updatedOrder = await prisma_1.prisma.$transaction(async (tx) => {
+        const gear = await tx.gearItem.findUnique({
+            where: {
+                id: order.gearId,
             },
-            gear: {
-                include: {
-                    category: true,
-                },
+        });
+        if (!gear) {
+            throw new Apperror_1.default(http_status_1.default.NOT_FOUND, "Gear not found");
+        }
+        if (gear.stock < order.quantity) {
+            throw new Apperror_1.default(http_status_1.default.BAD_REQUEST, "Insufficient stock");
+        }
+        const newStock = gear.stock - order.quantity;
+        const updatedGear = await tx.gearItem.update({
+            where: {
+                id: gear.id,
             },
-            payment: true,
-        },
+            data: {
+                stock: {
+                    decrement: order.quantity,
+                },
+                isAvailable: newStock > 0,
+            },
+        });
+        return await tx.rentalOrder.update({
+            where: {
+                id: orderId,
+            },
+            data: {
+                status: prisma_2.RentalStatus.PICKED_UP,
+            },
+            include: {
+                customer: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                        phone: true,
+                        profileImage: true,
+                    },
+                },
+                gear: {
+                    include: {
+                        category: true,
+                    },
+                },
+                payment: true,
+            },
+        });
     });
     return updatedOrder;
 };
@@ -215,30 +241,52 @@ const completeRental = async (providerId, orderId) => {
     if (order.status !== prisma_2.RentalStatus.PICKED_UP) {
         throw new Apperror_1.default(http_status_1.default.BAD_REQUEST, "Only picked up rentals can be completed");
     }
-    const updatedOrder = await prisma_1.prisma.rentalOrder.update({
-        where: {
-            id: orderId,
-        },
-        data: {
-            status: prisma_2.RentalStatus.RETURNED,
-        },
-        include: {
-            customer: {
-                select: {
-                    id: true,
-                    name: true,
-                    email: true,
-                    phone: true,
-                    profileImage: true,
-                },
+    const updatedOrder = await prisma_1.prisma.$transaction(async (tx) => {
+        const gear = await tx.gearItem.findUnique({
+            where: {
+                id: order.gearId,
             },
-            gear: {
-                include: {
-                    category: true,
-                },
+        });
+        if (!gear) {
+            throw new Apperror_1.default(http_status_1.default.NOT_FOUND, "Gear not found");
+        }
+        const newStock = gear.stock + order.quantity;
+        await tx.gearItem.update({
+            where: {
+                id: gear.id,
             },
-            payment: true,
-        },
+            data: {
+                stock: {
+                    increment: order.quantity,
+                },
+                isAvailable: newStock > 0,
+            },
+        });
+        return await tx.rentalOrder.update({
+            where: {
+                id: orderId,
+            },
+            data: {
+                status: prisma_2.RentalStatus.RETURNED,
+            },
+            include: {
+                customer: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                        phone: true,
+                        profileImage: true,
+                    },
+                },
+                gear: {
+                    include: {
+                        category: true,
+                    },
+                },
+                payment: true,
+            },
+        });
     });
     return updatedOrder;
 };

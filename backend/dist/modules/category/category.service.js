@@ -102,8 +102,12 @@ const updateCategory = async (id, payload) => {
             id,
         },
         data: {
-            ...payload,
-            name: payload.name?.trim(),
+            ...(payload.name && {
+                name: payload.name.trim(),
+            }),
+            ...(payload.description !== undefined && {
+                description: payload.description.trim(),
+            }),
         },
     });
     return result;

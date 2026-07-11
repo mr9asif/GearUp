@@ -8,6 +8,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
 const express_1 = __importDefault(require("express"));
 const prisma_1 = require("./config/prisma");
+const globlalErrorHandler_1 = __importDefault(require("./error/globlalErrorHandler"));
 const admin_route_1 = require("./modules/admin/admin.route");
 const auth_route_1 = require("./modules/auth/auth.route");
 const category_route_1 = require("./modules/category/category.route");
@@ -43,6 +44,7 @@ app.use("/api/rentals", rental_route_1.RentalRoutes);
 app.use("/api/reviews", review_route_1.ReviewRoutes);
 app.use("/api/dashboard", dashboard_route_1.DashboardRoutes);
 app.use("/api/profile", user_route_1.ProfileRoute);
+app.use(globlalErrorHandler_1.default);
 const startServer = async () => {
     try {
         await prisma_1.prisma.$connect();

@@ -71,6 +71,7 @@ const getAllGear = async (query) => {
     const minPrice = query.minPrice;
     const maxPrice = query.maxPrice;
     const isAvailable = query.isAvailable;
+    console.log(minPrice, maxPrice);
     const where = {};
     if (search) {
         where.OR = [
