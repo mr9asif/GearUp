@@ -1,11 +1,17 @@
-
 import bcrypt from "bcrypt";
+import "dotenv/config";
 import { prisma } from "../src/config/prisma";
 import { Role } from "../src/generated/prisma";
 
-
 async function main() {
-  const adminEmail = "admin@gearup.com";
+  const adminName = process.env.ADMIN_NAME!;
+  const adminEmail = process.env.ADMIN_EMAIL!;
+  const adminPassword = process.env.ADMIN_PASSWORD!;
+  const adminPhone = process.env.ADMIN_PHONE!;
+
+  if (!adminEmail || !adminPassword) {
+    throw new Error("ADMIN_EMAIL or ADMIN_PASSWORD is missing in .env");
+  }
 
   const existingAdmin = await prisma.user.findUnique({
     where: {
@@ -18,14 +24,14 @@ async function main() {
     return;
   }
 
-  const hashedPassword = await bcrypt.hash("Admin@1234", 10);
+  const hashedPassword = await bcrypt.hash(adminPassword, 10);
 
   await prisma.user.create({
     data: {
-      name: "Super Admin",
+      name: adminName,
       email: adminEmail,
       password: hashedPassword,
-     phone: "01792952161",
+      phone: adminPhone,
       role: Role.ADMIN,
     },
   });
@@ -36,6 +42,7 @@ async function main() {
 main()
   .catch((e) => {
     console.error(e);
+    process.exit(1);
   })
   .finally(async () => {
     await prisma.$disconnect();
