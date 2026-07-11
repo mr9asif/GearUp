@@ -13,13 +13,13 @@ https://gearup-tz3a.onrender.com
 ### API Base URL
 
 ```
-https://your-api-url.com/api
+https://gearup-tz3a.onrender.com
 ```
 
 ### Postman Documentation
 
 ```
-https://asif-raj.postman.co/workspace/Personal-Project~b2f51173-f272-48ab-9371-a6e814be8a3c/collection/38315131-6f552fb7-1ffb-4859-b15e-20ad1d107350?action=share&source=copy-link&creator=38315131
+https://documenter.getpostman.com/view/38315131/2sBY4LS2ZQ
 ```
 
 ---
